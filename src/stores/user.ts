@@ -1,6 +1,7 @@
 import { ref, computed, watch, inject, onMounted } from 'vue'
 import { defineStore } from 'pinia'
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
+// @ts-ignore
 import VueJwtDecode from 'vue-jwt-decode';
 
 export type User = { email: string , password: string }
