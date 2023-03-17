@@ -1,7 +1,6 @@
 import { ref, computed, watch, inject, onMounted } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router';
-// @ts-ignore
 import VueJwtDecode from 'vue-jwt-decode';
 
 export type User = { email: string , password: string }
@@ -12,7 +11,7 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter()
   const user = ref<User | null>(null)
   const token = ref<string | null>(null)
-  const baseApi = `${process.env.API_URL}/auth`
+  const baseApi = `${import.meta.env.VITE_API_URL}/auth`
 
   const decode = (token: string) => {
     try{

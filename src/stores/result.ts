@@ -1,4 +1,4 @@
-import { ref, computed, watch, inject, onMounted } from 'vue'
+import { ref, inject } from 'vue'
 import { defineStore } from 'pinia'
 
 export type ResultFilters = {
@@ -24,7 +24,7 @@ export type ResultResponse = {
 export const useResultStore = defineStore('result', () => {
   const axios: any = inject('axios')
   const result = ref<ResultResponse>([])
-  const baseApi = `${process.env.API_URL}/event`
+  const baseApi = `${import.meta.env.VITE_API_URL}/event`
 
 
   async function fetchResult (eventId: string, filters: ResultFilters) {
