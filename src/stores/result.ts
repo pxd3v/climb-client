@@ -24,7 +24,7 @@ export type ResultResponse = {
 export const useResultStore = defineStore('result', () => {
   const axios: any = inject('axios')
   const result = ref<ResultResponse>([])
-  const baseApi = 'http://localhost:3000/event'
+  const baseApi = `${process.env.API_URL}/event`
 
 
   async function fetchResult (eventId: string, filters: ResultFilters) {

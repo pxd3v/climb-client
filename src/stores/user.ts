@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter()
   const user = ref<User | null>(null)
   const token = ref<string | null>(null)
-  const baseApi = 'http://localhost:3000/auth'
+  const baseApi = `${process.env.API_URL}/auth`
 
   const decode = (token: string) => {
     try{
