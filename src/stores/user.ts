@@ -1,7 +1,6 @@
 import { ref, computed, watch, inject, onMounted } from 'vue'
 import { defineStore } from 'pinia'
-import { useRouter } from 'vue-router';
-import VueJwtDecode from 'vue-jwt-decode';
+import { useRoute, useRouter } from 'vue-router';
 
 export type User = { email: string , password: string }
 export type Credentials = { email: string , password: string }
@@ -9,21 +8,12 @@ export type Credentials = { email: string , password: string }
 export const useUserStore = defineStore('user', () => {
   const axios: any = inject('axios')
   const router = useRouter()
+  const route = useRoute()
   const user = ref<User | null>(null)
-  const token = ref<string | null>(null)
-  const baseApi = `${import.meta.env.VITE_API_URL}/auth`
-
-  const decode = (token: string) => {
-    try{
-      return VueJwtDecode.decode(token)
-    }
-    catch(err){
-        console.log('erro decoding token: ',err);
-    }
-}
+  const token = ref<string>('')
 
   async function signIn (credentials: Credentials) {
-    const response = await axios.post(`${baseApi}/login`, { 
+    const response = await axios.post('/auth/login', { 
       ...credentials
     }).catch((err: Error) => {
       console.error(err)
@@ -31,40 +21,37 @@ export const useUserStore = defineStore('user', () => {
     const accessToken = response?.data?.access_token
     if(!accessToken) return
     token.value = accessToken
-    
-    const user = decode(accessToken)
-    user.value = { ...user }
-    router.push({ name: 'Dashboard' })
   }
 
   function signOut () {
-    token.value = null
+    token.value = ''
     user.value = null
   }
 
-  const isAuthenticated = computed(() => token.value !== null)
-
-  watch(user, (newUser) => {
-    const hasEmail = !!newUser?.email
-    if(!hasEmail) router.push({ name: 'Login' })
-  })
+  const isAuthenticated = computed(() => !!token.value)
 
   watch(token, async (newToken) => {
-    if(!newToken) return localStorage.setItem('session_climb', '')
     axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
     localStorage.setItem('session_climb', newToken)
-    const response = await axios.get(`${baseApi}/profile`).catch((err: Error) => {
-      console.error(err)
-    })
-    if(!response.data.id) return
-    user.value = { ...response.data }
+    if(!newToken) return router.push({ name: 'Login' })
+    fetchUser()
   })
 
   onMounted(() => {
     const currentSessionToken = localStorage.getItem('session_climb')
-    if(!currentSessionToken) return
+    if(!currentSessionToken) return router.push({ name: 'Login' })
     token.value = currentSessionToken
   })
+
+  async function fetchUser () {
+    const response = await axios.get('/user').catch((err: Error) => {
+      console.error(err)
+    })
+    if(!response.data.id) return
+    user.value = { ...response.data }
+    if(route.name !== 'Login') return
+    router.push({ name: 'Dashboard' })
+  }
 
   return { user, signIn, signOut, isAuthenticated }
 })

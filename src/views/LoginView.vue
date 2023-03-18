@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user';
 import { ref, onMounted } from 'vue';
-import { NButton, NInput } from 'naive-ui'
+import { NButton, NCard, NInput, NText } from 'naive-ui'
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
@@ -18,17 +18,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <main>
-    <label>
-      Email
-      <NInput v-model:value="email"/>
-    </label>
-    <label>
-      Password
-      <NInput v-model:value="password"/>
-    </label>
-    <NButton @click="onLogin" class="mt-2">
-      Login
-    </NButton>
+  <main class="flex items-center justify-center">
+    <NCard size="medium" class="max-w-[500px]" embedded title="Login" content-style="display: flex; flex-direction: column; gap: 16px;">
+      <NText tag="label" >
+        Email
+        <NInput v-model:value="email" class="mt-1" placeholder="Digite seu email"/>
+      </NText>
+      <NText tag="label">
+        Password
+        <NInput v-model:value="password" class="mt-1" type="password" placeholder="Digite sua senha"/>
+      </NText>
+      <NButton @click="onLogin">
+        Login
+      </NButton>
+    </NCard>
   </main>
 </template>

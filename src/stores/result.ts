@@ -20,12 +20,11 @@ export const useResultStore = defineStore('result', () => {
   const axios: any = inject('axios')
   const result = ref<Array<ResultType>>([])
   const isLoadingResults = ref(false)
-  const baseApi = `${import.meta.env.VITE_API_URL}/event`
 
 
   async function fetchResult (eventId: string, filters: ResultFilters) {
     isLoadingResults.value = true
-    const response = await axios.get(`${baseApi}/${eventId}/result`, {
+    const response = await axios.get(`/${eventId}/result`, {
       params: { category: filters.category, gender: filters.gender, minAge: filters.age[0], maxAge: filters.age[1] }
     }).catch((err: Error) => {
       console.error(err)

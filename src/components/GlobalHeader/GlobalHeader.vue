@@ -7,11 +7,10 @@ import { computed } from 'vue';
 const userStore = useUserStore()
 const isAuthenticated = computed(() => userStore.isAuthenticated)
 const theme = useThemeStore()
-
 </script>
 
 <template>
-  <NPageHeader title="Resultados" subtitle="teste 2">
+  <NPageHeader title="Climb Festival">
     <template #avatar>
       <CarbonResult :color="theme.theme.common.primaryColor" class="w-6 h-6"/>
     </template>
