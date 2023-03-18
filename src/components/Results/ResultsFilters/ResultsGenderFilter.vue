@@ -1,12 +1,17 @@
 <template>
   <NText tag="label" class="w-full">
-    Idade
-    <NSelect :value="props.modelValue" :options="options" :on-update:value="onInput" :show-checkmark="false" />
+    Gênero
+    <NSelect
+      :value="props.modelValue"
+      :options="options"
+      :on-update:value="onInput"
+      :show-checkmark="false"
+    />
   </NText>
 </template>
 
 <script setup lang="ts">
-import { NSelect, NText } from 'naive-ui';
+import { NSelect, NText } from 'naive-ui'
 type ResultsGenderFilterProps = {
   modelValue: string
 }
@@ -31,6 +36,6 @@ const options = [
   {
     label: 'Todos',
     value: 'all'
-  },
+  }
 ]
 </script>

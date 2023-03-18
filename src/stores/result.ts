@@ -24,7 +24,7 @@ export const useResultStore = defineStore('result', () => {
 
   async function fetchResult (eventId: string, filters: ResultFilters) {
     isLoadingResults.value = true
-    const response = await axios.get(`/${eventId}/result`, {
+    const response = await axios.get(`/event/${eventId}/result`, {
       params: { category: filters.category, gender: filters.gender, minAge: filters.age[0], maxAge: filters.age[1] }
     }).catch((err: Error) => {
       console.error(err)

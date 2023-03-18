@@ -17,6 +17,7 @@ declare module '@vue/runtime-core' {
     CarbonResult: typeof import('~icons/carbon/result')['default']
     CarbonSun: typeof import('~icons/carbon/sun')['default']
     CarbonWeatherSun: typeof import('~icons/carbon/weather-sun')['default']
+    EventSelect: typeof import('./src/components/EventSelect/EventSelect.vue')['default']
     GlobalHeader: typeof import('./src/components/GlobalHeader/GlobalHeader.vue')['default']
     Header: typeof import('./src/components/GlobalHeader/Header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']

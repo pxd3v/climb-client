@@ -1,36 +1,40 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useResultStore, type ResultFilters } from '@/stores/result';
+import { ref, watch } from 'vue'
+import { useResultStore, type ResultFilters } from '@/stores/result'
 import ResultsCategoryFilter from './ResultsCategoryFilter.vue'
 import ResultsGenderFilter from './ResultsGenderFilter.vue'
 import ResultsAgeFilter from './ResultsAgeFilter.vue'
 import { debounce } from 'lodash'
 
-const route = useRoute()
-const resultStore = useResultStore();
+type ResultsFiltersProps = {
+  eventId: string
+}
+
+const props = defineProps<ResultsFiltersProps>()
+const resultStore = useResultStore()
 const filters = ref<ResultFilters>({
   category: 'all',
   gender: 'all',
   age: [0, 100]
 })
 
-const fetchFilteredResult = debounce((filters: ResultFilters) => {
-  const { eventId } = route.params
-  if(!eventId || typeof eventId !== 'string') return
+const fetchFilteredResult = debounce((eventId: string, filters: ResultFilters) => {
   resultStore.fetchResult(eventId, filters)
 }, 300)
 
-watch(filters, (newFilters) => {
-  fetchFilteredResult(newFilters)
-}, { deep: true, immediate: true })
-
+watch(
+  () => ({ eventId: props.eventId, filters }),
+  (newValue) => {
+    fetchFilteredResult(newValue.eventId, newValue.filters.value)
+  },
+  { deep: true, immediate: true }
+)
 </script>
 
 <template>
   <div class="flex gap-3">
-    <ResultsCategoryFilter v-model="filters.category"/>
-    <ResultsGenderFilter v-model="filters.gender"/>
-    <ResultsAgeFilter v-model="filters.age"/>
+    <ResultsCategoryFilter v-model="filters.category" />
+    <ResultsGenderFilter v-model="filters.gender" />
+    <ResultsAgeFilter v-model="filters.age" />
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <NText tag="label" class="w-full">
     Idade
-  <NSlider :value="props.modelValue" :on-update:value="onInput" range :step="1" />
+  <NSlider :value="props.modelValue" :on-update:value="onInput" range :step="1" class="mt-2"/>
   </NText>
 </template>
 
