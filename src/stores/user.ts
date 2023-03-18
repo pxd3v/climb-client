@@ -34,6 +34,7 @@ export const useUserStore = defineStore('user', () => {
     
     const user = decode(accessToken)
     user.value = { ...user }
+    router.push({ name: 'Dashboard' })
   }
 
   function signOut () {
@@ -45,8 +46,7 @@ export const useUserStore = defineStore('user', () => {
 
   watch(user, (newUser) => {
     const hasEmail = !!newUser?.email
-    console.log(hasEmail)
-    if(!hasEmail) router.push('Login')
+    if(!hasEmail) router.push({ name: 'Login' })
   })
 
   watch(token, async (newToken) => {

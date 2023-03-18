@@ -7,34 +7,32 @@ export type ResultFilters = {
   gender: 'Male' | 'Female' | 'all';
 };
 
-export type ResultResponse = {
-  "candidate": {
-    "user": {
-      "name": string,
-      "birthDate": string,
-      "gender": string,
-      "state": string,
-      "city": string
-    },
-    "category": string
-  },
+export type ResultType = {
+  "name": string,
+  "age": number,
+  "gender": string,
+  "category": string,
+  "state": string,
   "score": number
-}[]
+}
 
 export const useResultStore = defineStore('result', () => {
   const axios: any = inject('axios')
-  const result = ref<ResultResponse>([])
+  const result = ref<Array<ResultType>>([])
+  const isLoadingResults = ref(false)
   const baseApi = `${import.meta.env.VITE_API_URL}/event`
 
 
   async function fetchResult (eventId: string, filters: ResultFilters) {
+    isLoadingResults.value = true
     const response = await axios.get(`${baseApi}/${eventId}/result`, {
       params: { category: filters.category, gender: filters.gender, minAge: filters.age[0], maxAge: filters.age[1] }
     }).catch((err: Error) => {
       console.error(err)
     })
+    isLoadingResults.value = false
     if(!response.data) return
     result.value = response.data
   }
-  return { fetchResult, result }
+  return { fetchResult, result, isLoadingResults }
 })

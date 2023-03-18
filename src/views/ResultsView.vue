@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { NDataTable } from 'naive-ui'
-import type { DataTableColumns } from 'naive-ui'
-import { computed } from 'vue';
+import ResultsFilters from '@/components/Results/ResultsFilters/ResultsFilters.vue'
 import ResultsTable from '@/components/Results/ResultsTable/ResultsTable.vue'
-
 </script>
 
 <template>
-  <main>
-    <ResultsTable />
+  <main class="flex flex-col h-[80%]">
+    <ResultsFilters />
+    <ResultsTable class="mt-4 overflow-scroll"/>
   </main>
 </template>

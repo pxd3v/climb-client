@@ -1,60 +1,60 @@
 <script setup lang="ts">
 import { NDataTable } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
-import { computed } from 'vue';
-import { useResultStore } from '@/stores/result';
-import ResultsFilters from '@/components/Results/ResultsFilters/ResultsFilters.vue'
-type CandidateResult = { 
-  name: string, 
-  birthDate: string, 
-  gender: string, 
-  state: string, 
-  city: string, 
-  category: string, 
-  score: number 
-}
+import { computed, watch } from 'vue';
+import { useResultStore, type ResultType } from '@/stores/result';
+import { useWindowSize } from '@vueuse/core'
+
 const resultStore = useResultStore();
-const data = computed<Array<CandidateResult>>(() => resultStore.result.map(({ candidate: { user, category }, score }) => ({ ...user, category, score })))
-const columns: DataTableColumns<CandidateResult> = [
-  {
-    title: 'Atleta',
-    key: 'name'
-  },
-  {
-    title: 'Idade',
-    key: 'birthDate'
-  },
-  {
-    title: 'Genero',
-    key: 'gender'
-  },
-  {
-    title: 'Estado',
-    key: 'state'
-  },
-  {
-    title: 'Cidade',
-    key: 'city'
-  },
-  {
-    title: 'Categoria',
-    key: 'category'
-  },
-  {
-    title: 'Pontuacao',
-    key: 'score'
-  },
-]
+const data = computed<Array<ResultType>>(() => 
+  resultStore.result.map(result => ({ 
+    ...result, 
+    gender: result.gender === 'Male' ? 'M' : 'F', 
+    category: result.category === 'pro' ? 'P' : 'A'
+  })))
+const windowSize = useWindowSize()
+
+const columns = computed<DataTableColumns<ResultType>>(() => {
+  const mobileKeys = ['name', 'age', 'score']
+  const desktopKeys = ['name', 'state', 'age', 'gender', 'category', 'score']  
+  const keysToUse = windowSize.width.value > 720 ? desktopKeys : mobileKeys
+  return [
+    {
+      title: 'Atleta',
+      key: 'name'
+    },
+    {
+      title: 'Estado',
+      key: 'state'
+    },
+    {
+      title: 'Idade',
+      key: 'age'
+    },
+    {
+      title: 'Genero',
+      key: 'gender'
+    },
+    {
+      title: 'Categoria',
+      key: 'category'
+    },
+    {
+      title: 'Pontuacao',
+      key: 'score'
+    },
+  ].filter(column => keysToUse.includes(column.key))
+})
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <ResultsFilters />
-    <NDataTable 
-		:columns="columns"
-		:data="data"
-		:pagination="false"
-		:bordered="false"
-    />
-  </div>
+  <NDataTable 
+    :columns="columns"
+    :data="data"
+    :pagination="false"
+    :bordered="false"
+    :loading="resultStore.isLoadingResults"
+    striped
+    table-layout="fixed"
+  />
 </template>
