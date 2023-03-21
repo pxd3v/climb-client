@@ -12,9 +12,9 @@ export const useEventStore = defineStore('event', () => {
   const events = ref<Array<EventType>>([])
   const isLoadingEvents = ref(false)
 
-  async function fetchEvents() {
+  async function fetchEvents({ active = false }) {
     isLoadingEvents.value = true
-    const response = await axios.get(`/event`).catch((err: Error) => {
+    const response = await axios.get(`/event?${active ? 'active=true' : ''}`).catch((err: Error) => {
       console.error(err)
     })
     isLoadingEvents.value = false

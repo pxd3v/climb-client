@@ -9,26 +9,11 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    CarbonAsleep: typeof import('~icons/carbon/asleep')['default']
-    CarbonAsleepFileld: typeof import('~icons/carbon/asleep-fileld')['default']
     CarbonAsleepFilled: typeof import('~icons/carbon/asleep-filled')['default']
-    CarbonFaceCool: typeof import('~icons/carbon/face-cool')['default']
-    CarbonMoon: typeof import('~icons/carbon/moon')['default']
     CarbonResult: typeof import('~icons/carbon/result')['default']
     CarbonSun: typeof import('~icons/carbon/sun')['default']
-    CarbonWeatherSun: typeof import('~icons/carbon/weather-sun')['default']
     EventSelect: typeof import('./src/components/EventSelect/EventSelect.vue')['default']
     GlobalHeader: typeof import('./src/components/GlobalHeader/GlobalHeader.vue')['default']
-    Header: typeof import('./src/components/GlobalHeader/Header.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
-    IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
-    IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
-    IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
-    IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
-    PhosphorSun: typeof import('~icons/ph/osphor-sun')['default']
-    PhSun: typeof import('~icons/ph/sun')['default']
-    PhSunDimFil: typeof import('~icons/ph/sun-dim-fil')['default']
     ResultsAgeFilter: typeof import('./src/components/Results/ResultsFilters/ResultsAgeFilter.vue')['default']
     ResultsCategoryFilter: typeof import('./src/components/Results/ResultsFilters/ResultsCategoryFilter.vue')['default']
     ResultsFilters: typeof import('./src/components/Results/ResultsFilters/ResultsFilters.vue')['default']
@@ -36,7 +21,5 @@ declare module '@vue/runtime-core' {
     ResultsTable: typeof import('./src/components/Results/ResultsTable/ResultsTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
-    WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }

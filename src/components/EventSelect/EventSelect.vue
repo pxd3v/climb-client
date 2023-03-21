@@ -18,13 +18,14 @@ import { computed, onMounted } from 'vue'
 
 type EventSelectProps = {
   modelValue?: string
+  onlyActive?: boolean
 }
 
 type EventSelectEmits = {
   (e: 'update:modelValue', value: string): void
 }
 
-defineProps<EventSelectProps>()
+const props = defineProps<EventSelectProps>()
 const emit = defineEmits<EventSelectEmits>()
 
 const eventStore = useEventStore()
@@ -37,7 +38,7 @@ function onUpdateValue(value: string) {
 }
 
 onMounted(async () => {
-  const events = await eventStore.fetchEvents()
+  const events = await eventStore.fetchEvents({ active: props.onlyActive })
   if (!events?.[0]) return
   emit('update:modelValue', `${events[0].id}`)
 })

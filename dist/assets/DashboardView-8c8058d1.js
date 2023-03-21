@@ -1,0 +1,1 @@
+import{a as n,c as a}from"./index-356ebbb4.js";const s=(e,t)=>{const c=e.__vccOpts||e;for(const[o,r]of t)c[o]=r;return c},_={};function f(e,t){return n(),a("main")}const l=s(_,[["render",f]]);export{l as default};

@@ -7,7 +7,7 @@
       title="Registrar tentativa"
       content-style="display: flex; flex-direction: column; gap: 16px;"
     >
-      <EventSelect v-model="form.currentEventId" />
+      <EventSelect v-model="form.currentEventId" only-active />
       <NText tag="label">
         Número do candidato
         <NInputNumber
