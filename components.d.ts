@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     CarbonAsleepFilled: typeof import('~icons/carbon/asleep-filled')['default']
     CarbonResult: typeof import('~icons/carbon/result')['default']
     CarbonSun: typeof import('~icons/carbon/sun')['default']
+    ConfirmEntryModal: typeof import('./src/components/ConfirmEntryModal/ConfirmEntryModal.vue')['default']
     EventSelect: typeof import('./src/components/EventSelect/EventSelect.vue')['default']
     GlobalHeader: typeof import('./src/components/GlobalHeader/GlobalHeader.vue')['default']
     ResultsAgeFilter: typeof import('./src/components/Results/ResultsFilters/ResultsAgeFilter.vue')['default']
