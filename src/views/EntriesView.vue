@@ -71,6 +71,7 @@ function resetForm() {
   form.candidate = 0
   form.boulder = 0
   form.sent = false
+  show.value = false
 }
 
 function openModal() {
