@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch, onBeforeUnmount } from 'vue'
 import { useResultStore, type ResultFilters } from '@/stores/result'
 import ResultsCategoryFilter from './ResultsCategoryFilter.vue'
 import ResultsGenderFilter from './ResultsGenderFilter.vue'
@@ -18,6 +18,8 @@ const filters = ref<ResultFilters>({
   age: [0, 100]
 })
 
+const intervalId = ref<null | number>(null)
+
 const fetchFilteredResult = debounce((eventId: string, filters: ResultFilters) => {
   resultStore.fetchResult(eventId, filters)
 }, 300)
@@ -26,9 +28,32 @@ watch(
   () => ({ eventId: props.eventId, filters }),
   (newValue) => {
     fetchFilteredResult(newValue.eventId, newValue.filters.value)
+    createScoreRefresh()
   },
   { deep: true, immediate: true }
 )
+
+function deleteScoreRefresh() {
+  if(intervalId.value) {
+    clearInterval(intervalId.value)
+  }
+}
+
+function createScoreRefresh() {
+  deleteScoreRefresh()
+
+  intervalId.value = setInterval(function () {
+    fetchFilteredResult(props.eventId, filters.value)
+  }, 30000);
+}
+
+onMounted(() => {
+  createScoreRefresh()
+})
+
+onBeforeUnmount(() => {
+  deleteScoreRefresh()
+})
 </script>
 
 <template>
