@@ -23,7 +23,7 @@ export const useUserStore = defineStore('user', () => {
       }
       })
       .catch((err: Error) => {
-        console.error(err)
+        console.error('@@error signing in', err)
       })
     if(!response) return
     const accessToken = response.access_token
@@ -45,7 +45,7 @@ export const useUserStore = defineStore('user', () => {
 
   async function fetchUser() {
     const response = await useCustomFetch<User>('/user').catch((err: Error) => {
-      console.error('@@fetch user error', err)
+      console.error('@@error fetching user', err)
     })
 
     if(response && 'error' in response && response.error.value?.status === 401) {

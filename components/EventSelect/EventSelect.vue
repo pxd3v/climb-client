@@ -1,13 +1,15 @@
 <template>
   <NText tag="label" class="w-full">
     Evento
-    <NSelect
+    <ClientOnly>
+      <NSelect
       :loading="eventStore.isLoadingEvents"
       :options="options"
       :value="modelValue"
       @update:value="onUpdateValue"
       :show-checkmark="false"
-    />
+      />
+    </ClientOnly>
   </NText>
 </template>
 

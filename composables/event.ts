@@ -13,7 +13,7 @@ export const useEventStore = defineStore('event', () => {
   async function fetchEvents({ active = false }) {
     isLoadingEvents.value = true
     const response = await useCustomFetch<Array<EventType>>(`/event?${active ? 'active=true' : ''}`).catch((err: Error) => {
-      console.error(err)
+      console.error('@@error fetching events', err)
     })
     isLoadingEvents.value = false
     if (!response?.data.value) return

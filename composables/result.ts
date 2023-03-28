@@ -25,7 +25,7 @@ export const useResultStore = defineStore('result', () => {
     const response = await useCustomFetch<Array<ResultType>>(`/event/${eventId}/result`, {
       params: { category: filters.category, gender: filters.gender, minAge: filters.age[0], maxAge: filters.age[1] }
     }).catch((err: Error) => {
-      console.error(err)
+      console.error('@@error fetching results', err)
     })
     isLoadingResults.value = false
     if(!response?.data.value) return

@@ -18,11 +18,11 @@ export const useCustomFetch = async <T>(url: string, params = {}) => {
     },
     // @ts-ignore
     async onRequestError({ error }) {
-      console.log(error.message)
+      console.log('@onRequestError', error.message)
     },
     // @ts-ignore
     async onResponseError({ response }) {
-      console.log(response._data.message)
+      console.log('@onResponseError', response._data.message)
     },
 
     ...params
