@@ -45,8 +45,13 @@ export const useUserStore = defineStore('user', () => {
 
   async function fetchUser() {
     const response = await useCustomFetch<User>('/user').catch((err: Error) => {
-      console.error(err)
+      console.error('@@fetch user error', err)
     })
+
+    if(response && 'error' in response && response.error.value?.status === 401) {
+      return signOut()
+    }
+
     if (!response?.data.value?.id) return
     user.value = { ...response.data.value }
     if (route.name !== 'login') return
