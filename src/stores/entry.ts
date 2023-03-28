@@ -1,5 +1,7 @@
 import { inject } from 'vue'
 import { defineStore } from 'pinia'
+import { useNotification } from 'naive-ui'
+import type { AxiosError } from 'axios'
 
 export type CreateOrUpdateEntry = {
   sent: boolean
@@ -21,14 +23,23 @@ export type Entry = {
   sent: boolean
 }
 
+
 export const useEntryStore = defineStore('entry', () => {
   const axios: any = inject('axios')
+  const notification = useNotification()
 
-  async function createOrUpdateEntry(payload: CreateOrUpdateEntry): Promise<Entry> {
-    const response = await axios.put(`/entry`, payload).catch((err: Error) => {
-      console.error(err)
-    })
-    return response.data
+  async function createOrUpdateEntry(payload: CreateOrUpdateEntry): Promise<Entry | undefined> {
+    try {
+      const response = await axios.put(`/entry`, payload)
+      return response.data
+    } catch(err) {
+        const error = err as AxiosError<{ statusCode: 400, message: string }>
+        notification.error({
+        content: error.response?.data.message,
+        duration: 2000,
+        keepAliveOnHover: true
+      })
+    }
   }
 
   return { createOrUpdateEntry }

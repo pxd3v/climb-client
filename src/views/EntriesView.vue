@@ -85,7 +85,7 @@ async function onSubmit() {
   const referee = userStore.user?.Referee.find((referee) => referee.eventId === currentEventId)
   if (formIsInvalid.value || !referee) return
 
-  const entry = await entryStore.createOrUpdateEntry({
+  const result = await entryStore.createOrUpdateEntry({
     sent: sent,
     eventId: currentEventId,
     candidateNumber: candidate,
@@ -93,13 +93,14 @@ async function onSubmit() {
     refereeId: referee.id
   })
 
-  if (entry.id) {
+  if (result?.id) {
     notification.success({
       content: 'Entrada registrada com sucesso!',
       duration: 2000,
       keepAliveOnHover: true
     })
-    resetForm()
   }
+  
+  resetForm()
 }
 </script>
