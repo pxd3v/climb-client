@@ -1,4 +1,3 @@
-import { inject } from 'vue'
 import { defineStore } from 'pinia'
 import { useNotification } from 'naive-ui'
 import type { AxiosError } from 'axios'

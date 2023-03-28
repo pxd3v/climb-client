@@ -49,7 +49,10 @@
 import EventSelect from '@/components/EventSelect/EventSelect.vue'
 import ConfirmEntryModal from '@/components/ConfirmEntryModal/ConfirmEntryModal.vue'
 import { NInputNumber, NText, NCard, NButton, useNotification, NRadioGroup, NRadioButton } from 'naive-ui'
-import { computed, reactive, ref } from 'vue'
+
+useHead({
+  title: 'Dyno - Entradas',
+})
 
 const userStore = useUserStore()
 const entryStore = useEntryStore()

@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { NModal, NText, NTag, NStatistic, NButton } from 'naive-ui'
-import { computed } from 'vue'
+
 type EventSelectProps = {
   show: boolean;
   data: {

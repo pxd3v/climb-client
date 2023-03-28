@@ -2,7 +2,10 @@
 import ResultsFilters from '@/components/Results/ResultsFilters/ResultsFilters.vue'
 import ResultsTable from '@/components/Results/ResultsTable/ResultsTable.vue'
 import EventSelect from '@/components/EventSelect/EventSelect.vue'
-import { ref } from 'vue'
+
+useHead({
+  title: 'Dyno - Resultados',
+})
 
 const currentEventId = ref<string | undefined>()
 </script>

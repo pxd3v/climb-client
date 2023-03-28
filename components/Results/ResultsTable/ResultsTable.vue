@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { NDataTable } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
-import { computed } from 'vue';
 import { useWindowSize } from '@vueuse/core'
 import { ResultType } from '~~/composables/result';
 

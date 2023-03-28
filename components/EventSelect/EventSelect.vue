@@ -13,7 +13,6 @@
 
 <script setup lang="ts">
 import { NSelect, NText } from 'naive-ui'
-import { computed, onMounted } from 'vue'
 
 type EventSelectProps = {
   modelValue?: string

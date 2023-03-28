@@ -2,6 +2,10 @@
 import { NButton, NCard, NInput, NText } from 'naive-ui'
 import { useRouter } from 'vue-router';
 
+useHead({
+  title: 'Dyno - Login',
+})
+
 const router = useRouter()
 const userStore = useUserStore()
 const email = ref('')

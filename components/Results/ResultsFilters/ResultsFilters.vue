@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, onBeforeUnmount } from 'vue'
 import ResultsCategoryFilter from './ResultsCategoryFilter.vue'
 import ResultsGenderFilter from './ResultsGenderFilter.vue'
 import ResultsAgeFilter from './ResultsAgeFilter.vue'
