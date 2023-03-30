@@ -55,7 +55,7 @@ export const useUserStore = defineStore('user', () => {
     if (!response?.data.value?.id) return
     user.value = { ...response.data.value }
     if (route.name !== 'login') return
-    router.push({ name: 'index' })
+    router.push({ name: 'results' })
   }
 
   return { user, signIn, signOut, isAuthenticated }

@@ -7,7 +7,6 @@
       title="Registrar tentativa"
       content-style="display: flex; flex-direction: column; gap: 16px;"
     >
-      <EventSelect v-model="form.currentEventId" only-active />
       <NText tag="label">
         Número do candidato
         <NInputNumber
@@ -46,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import EventSelect from '@/components/EventSelect/EventSelect.vue'
 import ConfirmEntryModal from '@/components/ConfirmEntryModal/ConfirmEntryModal.vue'
 import { NInputNumber, NText, NCard, NButton, useNotification, NRadioGroup, NRadioButton } from 'naive-ui'
 
@@ -54,6 +52,7 @@ useHead({
   title: 'Dyno - Entradas',
 })
 
+const eventStore = useEventStore()
 const userStore = useUserStore()
 const entryStore = useEntryStore()
 const notification = useNotification()
@@ -61,12 +60,11 @@ const form = reactive({
   candidate: 0,
   boulder: 0,
   sent: false,
-  currentEventId: undefined
 })
 const show = ref(false)
 const formIsInvalid = computed(() => {
-  const { candidate, boulder, currentEventId } = form
-  return (!candidate || !boulder || currentEventId === undefined)
+  const { candidate, boulder } = form
+  return (!candidate || !boulder || eventStore.currentEventId === undefined)
 })
 function resetForm() {
   form.candidate = 0
@@ -82,7 +80,7 @@ function openModal() {
 
 async function onSubmit() {
   const { candidate, boulder, sent } = form
-  const currentEventId = Number(form.currentEventId)
+  const currentEventId = Number(eventStore.currentEventId)
   const referee = userStore.user?.Referee.find((referee) => referee.eventId === currentEventId)
   if (formIsInvalid.value || !referee) return
 

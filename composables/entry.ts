@@ -29,7 +29,7 @@ export const useEntryStore = defineStore('entry', () => {
   async function createOrUpdateEntry(body: CreateOrUpdateEntry): Promise<Entry | undefined> {
     try {
       const response = await useRequest<Entry | undefined>(`/entry`, {
-        method: 'POST',
+        method: 'PUT',
         body
       })
       return response

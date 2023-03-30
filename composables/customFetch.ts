@@ -4,14 +4,12 @@ export const useCustomFetch = async <T>(url: string, params = {}) => {
   const config = useRuntimeConfig()
 
   const opts = {
-    key: url,
     baseURL: config.public.apiURL,
 
     // @ts-ignore
     async onRequest({ options }) {
 
       options.headers = options.headers || {}
-
       if (token.value) {
         options.headers['Authorization'] = `Bearer ${token.value}`
       }

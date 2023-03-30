@@ -6,11 +6,12 @@ export type EventType = {
   createdAt: string
 }
 
-export const useEventStore = defineStore('event', () => {
-  const events = ref<Array<EventType>>([])
-  const isLoadingEvents = ref(false)
+const events = ref<Array<EventType>>([])
+const isLoadingEvents = ref(false)
+const currentEventId = ref<string | undefined>()
 
-  async function fetchEvents({ active = false }) {
+export const useEventStore = defineStore('event', () => {
+  async function fetchEvents({ active } = { active: false }) {
     isLoadingEvents.value = true
     const response = await useCustomFetch<Array<EventType>>(`/event?${active ? 'active=true' : ''}`).catch((err: Error) => {
       console.error('@@error fetching events', err)
@@ -21,5 +22,10 @@ export const useEventStore = defineStore('event', () => {
     return events.value
   }
 
-  return { events, fetchEvents, isLoadingEvents }
+  function setCurrentEvent(eventId: string) {
+    currentEventId.value = eventId
+  }
+  
+
+  return { fetchEvents, setCurrentEvent, events, isLoadingEvents, currentEventId }
 })

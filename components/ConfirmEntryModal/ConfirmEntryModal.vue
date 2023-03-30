@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { NModal, NText, NTag, NStatistic, NButton } from 'naive-ui'
 
-type EventSelectProps = {
+type ConfirmEntryModalProps = {
   show: boolean;
   data: {
     candidate: number;
@@ -26,13 +26,13 @@ type EventSelectProps = {
   }
 }
 
-type EventSelectEmits = {
+type ConfirmEntryModalEmits = {
   (e: 'update:show', value: boolean): void
   (e: 'action'): void
 }
 
-const props = defineProps<EventSelectProps>()
-const emit = defineEmits<EventSelectEmits>()
+const props = defineProps<ConfirmEntryModalProps>()
+const emit = defineEmits<ConfirmEntryModalEmits>()
 
 const sentProps = computed(() => ({
   label: props.data.sent ? 'Top' : 'Tentativa',

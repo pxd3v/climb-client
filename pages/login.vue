@@ -15,7 +15,7 @@ function onLogin () {
 }
 onMounted(() => {
   if(!userStore.user?.email) return
-  router.push({ name: 'index' })
+  router.push({ name: 'results' })
 })
 </script>
 

@@ -18,10 +18,11 @@ const filters = ref<ResultFilters>({
 })
 
 const intervalId = ref<null | number>(null)
-
 const fetchFilteredResult = debounce((eventId: string, filters: ResultFilters) => {
   resultStore.fetchResult(eventId, filters)
 }, 300)
+
+resultStore.fetchResult(props.eventId, filters.value)
 
 watch(
   () => ({ eventId: props.eventId, filters }),
@@ -29,7 +30,7 @@ watch(
     fetchFilteredResult(newValue.eventId, newValue.filters.value)
     createScoreRefresh()
   },
-  { deep: true, immediate: true }
+  { deep: true }
 )
 
 function deleteScoreRefresh() {

@@ -1,6 +1,5 @@
 <template>
-  <NText tag="label" class="w-full">
-    Evento
+  <div>
     <ClientOnly>
       <NSelect
       :loading="eventStore.isLoadingEvents"
@@ -10,11 +9,11 @@
       :show-checkmark="false"
       />
     </ClientOnly>
-  </NText>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { NSelect, NText } from 'naive-ui'
+import { NSelect } from 'naive-ui'
 
 type EventSelectProps = {
   modelValue?: string
@@ -29,6 +28,11 @@ const props = defineProps<EventSelectProps>()
 const emit = defineEmits<EventSelectEmits>()
 
 const eventStore = useEventStore()
+eventStore.fetchEvents({ active: props.onlyActive }).then(() => {
+  if (!eventStore.events?.[0]) return
+  emit('update:modelValue', `${eventStore.events[0].id}`)
+})
+
 const options = computed(() =>
   eventStore.events.map((event) => ({ label: event.name, value: `${event.id}` }))
 )
@@ -36,10 +40,4 @@ const options = computed(() =>
 function onUpdateValue(value: string) {
   emit('update:modelValue', value)
 }
-
-onMounted(async () => {
-  const events = await eventStore.fetchEvents({ active: props.onlyActive })
-  if (!events?.[0]) return
-  emit('update:modelValue', `${events[0].id}`)
-})
 </script>
