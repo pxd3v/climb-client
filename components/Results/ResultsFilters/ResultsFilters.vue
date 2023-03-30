@@ -2,7 +2,7 @@
 import ResultsCategoryFilter from './ResultsCategoryFilter.vue'
 import ResultsGenderFilter from './ResultsGenderFilter.vue'
 import ResultsAgeFilter from './ResultsAgeFilter.vue'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import { ResultFilters } from '~~/composables/result'
 
 type ResultsFiltersProps = {
