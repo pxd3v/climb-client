@@ -1,3 +1,11 @@
+<template>
+  <div class="flex gap-3">
+    <ResultsCategoryFilter v-model="filters.category" />
+    <ResultsGenderFilter v-model="filters.gender" />
+    <ResultsAgeFilter v-model="filters.age" />
+  </div>
+</template>
+
 <script setup lang="ts">
 import ResultsCategoryFilter from './ResultsCategoryFilter.vue'
 import ResultsGenderFilter from './ResultsGenderFilter.vue'
@@ -21,8 +29,6 @@ const intervalId = ref<null | number>(null)
 const fetchFilteredResult = debounce((eventId: string, filters: ResultFilters) => {
   resultStore.fetchResult(eventId, filters)
 }, 300)
-
-resultStore.fetchResult(props.eventId, filters.value)
 
 watch(
   () => ({ eventId: props.eventId, filters }),
@@ -55,11 +61,3 @@ onBeforeUnmount(() => {
   deleteScoreRefresh()
 })
 </script>
-
-<template>
-  <div class="flex gap-3">
-    <ResultsCategoryFilter v-model="filters.category" />
-    <ResultsGenderFilter v-model="filters.gender" />
-    <ResultsAgeFilter v-model="filters.age" />
-  </div>
-</template>

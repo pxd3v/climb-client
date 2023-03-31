@@ -19,15 +19,12 @@ export const useResultStore = defineStore('result', () => {
   const result = ref<Array<ResultType>>([])
   const isLoadingResults = ref(false)
 
-
-  async function fetchResult (eventId: string, filters: ResultFilters) {
-    isLoadingResults.value = true
+  async function fetchResult (eventId: string, filters?: ResultFilters) {
     const response = await useCustomFetch<Array<ResultType>>(`/event/${eventId}/result`, {
-      params: { category: filters.category, gender: filters.gender, minAge: filters.age[0], maxAge: filters.age[1] }
+      params: { category: filters?.category, gender: filters?.gender, minAge: filters?.age[0], maxAge: filters?.age[1] }
     }).catch((err: Error) => {
       console.error('@@error fetching results', err)
     })
-    isLoadingResults.value = false
     if(!response?.data.value) return
     result.value = response.data.value
   }

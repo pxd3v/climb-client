@@ -5,8 +5,9 @@
         class="rounded-none w-full flex flex-col h-full overflow-hidden p-3"
         :style="`background: ${theme.theme.common.baseColor}`"
       >
-        <GlobalHeader />
-        <NuxtPage class="mt-4 flex-1" />
+        <NuxtLayout>
+          <NuxtPage />
+        </NuxtLayout>
       </div>
     </NNotificationProvider>
   </NConfigProvider>
@@ -14,7 +15,6 @@
 
 <script setup lang="ts">
 import { NConfigProvider, NNotificationProvider } from 'naive-ui'
-import GlobalHeader from './components/GlobalHeader/GlobalHeader.vue'
 
 const theme = useThemeStore()
 </script>

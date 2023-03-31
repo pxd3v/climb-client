@@ -1,5 +1,5 @@
 <template>
-  <main class="flex items-center justify-center">
+  <main class="flex items-center justify-center flex-1">
     <NCard
       size="medium"
       class="max-w-[500px]"
@@ -51,6 +51,10 @@ import { NInputNumber, NText, NCard, NButton, useNotification, NRadioGroup, NRad
 useHead({
   title: 'Dyno - Entradas',
 })
+
+definePageMeta({
+  layout: "authenticated",
+});
 
 const eventStore = useEventStore()
 const userStore = useUserStore()
