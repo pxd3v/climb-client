@@ -1,6 +1,6 @@
 <template>
-  <main class="h-[80%] flex">
-    <ResultsLayout v-if="eventId" :event-id="eventId"/>
+  <main class="flex h-full">
+    <ResultsLayout v-if="eventId" :event-id="eventId" />
   </main>
 </template>
 
