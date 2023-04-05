@@ -1,4 +1,4 @@
-export const useCustomFetch = async <T>(url: string, params = {}) => {
+export const useApi = async <T>(url: string, params = {}) => {
 
   const token = useCookie('dyno_session')
   const config = useRuntimeConfig()

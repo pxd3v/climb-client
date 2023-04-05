@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', () => {
   }, { immediate: true })
 
   async function fetchUser() {
-    const response = await useCustomFetch<User>('/user').catch((err: Error) => {
+    const response = await useApi<User>('/user').catch((err: Error) => {
       console.error('@@error fetching user', err)
     })
 

@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxtjs/tailwindcss',
     'nuxt-icon',
+    '@nuxtjs/device',
   ],
   runtimeConfig: {
     public: {

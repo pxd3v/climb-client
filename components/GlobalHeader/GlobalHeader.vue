@@ -17,7 +17,6 @@ const theme = useThemeStore()
     </template>
     <template #extra>
       <div class="flex gap-3 items-center">
-        <EventSelect v-if="userStore.isAuthenticated" v-model="eventStore.currentEventId" class="w-[280px]" />
         <NButton v-if="isAuthenticated" @click="userStore.signOut">Sign out</NButton>
         <NSwitch :value="theme.isDarkTheme" @update:value="theme.onChangeTheme" class="ml-auto">
           <template #icon>
@@ -27,13 +26,17 @@ const theme = useThemeStore()
         </NSwitch>
       </div>
     </template>
-    <div class="flex gap-3" v-if="isAuthenticated">
-      <RouterLink to="/results" v-slot="{ navigate, isActive }">
-        <NButton @click="navigate" :secondary="!isActive">Resultados</NButton>
-      </RouterLink>
-      <RouterLink to="/entries" v-slot="{ navigate, isActive }">
-        <NButton @click="navigate" :secondary="!isActive">Registrar tentativas</NButton>
-      </RouterLink>
+    <div class="flex flex-col gap-3">
+      <EventSelect v-if="userStore.isAuthenticated" v-model="eventStore.currentEventId" class="w-full" />
+      <div class="flex gap-3" v-if="isAuthenticated">
+        <RouterLink to="/results" v-slot="{ navigate, isActive }">
+          <NButton @click="navigate" :secondary="!isActive">Resultados</NButton>
+        </RouterLink>
+        <RouterLink to="/entries" v-slot="{ navigate, isActive }">
+          <NButton @click="navigate" :secondary="!isActive">Registrar tentativas</NButton>
+        </RouterLink>
+      </div>
     </div>
+
   </NPageHeader>
 </template>

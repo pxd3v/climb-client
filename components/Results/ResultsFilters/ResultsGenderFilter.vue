@@ -6,6 +6,7 @@
       :options="options"
       :on-update:value="onInput"
       :show-checkmark="false"
+      class="mt-2"
     />
   </NText>
 </template>

@@ -13,7 +13,7 @@ const currentEventId = ref<string | undefined>()
 export const useEventStore = defineStore('event', () => {
   async function fetchEvents({ active } = { active: false }) {
     isLoadingEvents.value = true
-    const response = await useCustomFetch<Array<EventType>>(`/event?${active ? 'active=true' : ''}`).catch((err: Error) => {
+    const response = await useApi<Array<EventType>>(`/event?${active ? 'active=true' : ''}`).catch((err: Error) => {
       console.error('@@error fetching events', err)
     })
     isLoadingEvents.value = false

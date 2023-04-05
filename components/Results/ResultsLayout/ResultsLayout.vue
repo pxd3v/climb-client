@@ -9,7 +9,6 @@
 import ResultsFilters from '@/components/Results/ResultsFilters/ResultsFilters.vue'
 import ResultsTable from '@/components/Results/ResultsTable/ResultsTable.vue'
 
-
 type ResultsLayoutProps = {
   eventId: string;
 }

@@ -1,5 +1,5 @@
 <template>
-  <main class="h-[80%] flex">
+  <main class="h-full flex">
     <ResultsLayout v-if="eventStore.currentEventId" :event-id="eventStore.currentEventId"/>
   </main>
 </template>

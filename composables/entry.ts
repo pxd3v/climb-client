@@ -10,6 +10,16 @@ export type CreateOrUpdateEntry = {
   refereeId: number
 }
 
+export type Boulder = {
+  id: number
+  number: number
+  eventId: number
+  flashScore: number
+  score: number
+  sector: string
+  color: string
+}
+
 export type Entry = {
   id: number
   createdAt: string
@@ -20,12 +30,12 @@ export type Entry = {
   eventId: number
   tries: number
   sent: boolean
+  boulder: Boulder
 }
 
 
 export const useEntryStore = defineStore('entry', () => {
   const notification = useNotification()
-
   async function createOrUpdateEntry(body: CreateOrUpdateEntry): Promise<Entry | undefined> {
     try {
       const response = await useRequest<Entry | undefined>(`/entry`, {
@@ -43,5 +53,19 @@ export const useEntryStore = defineStore('entry', () => {
     }
   }
 
-  return { createOrUpdateEntry }
+  function listEntries({ eventId, candidateId }: { eventId?: string, candidateId?: string }) {
+    const isLoadingList = ref(true)
+    const request = async () => {
+      const result = await useApi<Array<Entry>>(`/entry?eventId=${eventId}&candidateId=${candidateId}`).catch((err: Error) => {
+        console.error('@@error fetching entries', err)
+      })
+      isLoadingList.value = false
+      if(!result) throw new Error('Error fetching entries')
+      return result
+    }
+
+    return { request, isLoadingList } 
+  }
+
+  return { createOrUpdateEntry, listEntries }
 })

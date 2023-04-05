@@ -12,7 +12,8 @@ export type ResultType = {
   "gender": string,
   "category": string,
   "state": string,
-  "score": number
+  "score": number,
+  "candidateId": string
 }
 
 export const useResultStore = defineStore('result', () => {
@@ -20,7 +21,7 @@ export const useResultStore = defineStore('result', () => {
   const isLoadingResults = ref(false)
 
   async function fetchResult (eventId: string, filters?: ResultFilters) {
-    const response = await useCustomFetch<Array<ResultType>>(`/event/${eventId}/result`, {
+    const response = await useApi<Array<ResultType>>(`/event/${eventId}/result`, {
       params: { category: filters?.category, gender: filters?.gender, minAge: filters?.age[0], maxAge: filters?.age[1] }
     }).catch((err: Error) => {
       console.error('@@error fetching results', err)

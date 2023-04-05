@@ -1,6 +1,6 @@
 <template>
   <GlobalHeader />
-  <div class="mt-4 flex-1">
+  <div class="mt-3 flex-1 max-h-full overflow-hidden">
     <slot />
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <NText tag="label" class="w-full">
     Categoria
-    <NSelect :value="props.modelValue" :options="options" :on-update:value="onInput" :show-checkmark="false" />
+    <NSelect :value="props.modelValue" :options="options" :on-update:value="onInput" :show-checkmark="false" class="mt-2" />
   </NText>
 </template>
 

@@ -50,7 +50,7 @@ function createScoreRefresh() {
 
   intervalId.value = setInterval(function () {
     fetchFilteredResult(props.eventId, filters.value)
-  }, 30000);
+  }, 60000 * 5);
 }
 
 onMounted(() => {

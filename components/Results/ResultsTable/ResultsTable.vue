@@ -1,23 +1,45 @@
+<template>
+  <NDataTable 
+    :columns="columns"
+    :data="data"
+    :pagination="false"
+    :bordered="false"
+    :loading="resultStore.isLoadingResults"
+    v-model:expanded-row-keys="expandedKeys"
+    striped
+    table-layout="fixed"
+  />
+</template>
+
 <script setup lang="ts">
 import { NDataTable } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
-import { useWindowSize } from '@vueuse/core'
 import { ResultType } from '~~/composables/result';
-
+import ResultsTableCandidateRow from './ResultsTableCandidateRow.vue'
 const resultStore = useResultStore();
-const data = computed<Array<ResultType>>(() => 
-  resultStore.result.map(result => ({ 
-    ...result, 
-    gender: result.gender === 'Male' ? 'M' : 'F', 
-    category: result.category === 'pro' ? 'P' : 'A'
-  })))
-const windowSize = useWindowSize()
+const eventStore = useEventStore();
+const { isMobile } = useDevice();
 
+const data = ref<Array<ResultType>>(parseResult(resultStore.result))
+const expandedKeys = ref<Array<string>>([])
+
+// @ts-ignore
 const columns = computed<DataTableColumns<ResultType>>(() => {
-  const mobileKeys = ['name', 'age', 'score']
-  const desktopKeys = ['name', 'state', 'age', 'gender', 'category', 'score']  
-  const keysToUse = windowSize.width.value > 720 ? desktopKeys : mobileKeys
+  const mobileKeys = ['name', 'age', 'score', 'expand']
+  const desktopKeys = ['name', 'state', 'age', 'gender', 'category', 'score', 'expand']  
+  const keysToUse = isMobile ? mobileKeys : desktopKeys
   return [
+    {
+      type: 'expand',
+      renderExpand: (rowData: ResultType) => {
+        if(!eventStore.currentEventId) throw new Error('Cant fetch candidate entries without event id')
+        return h(ResultsTableCandidateRow, {
+          eventId: eventStore.currentEventId,
+          candidateId: rowData.candidateId
+        })
+      },
+      key: 'expand'
+    },
     {
       title: 'Atleta',
       key: 'name'
@@ -44,16 +66,18 @@ const columns = computed<DataTableColumns<ResultType>>(() => {
     },
   ].filter(column => keysToUse.includes(column.key))
 })
-</script>
 
-<template>
-  <NDataTable 
-    :columns="columns"
-    :data="data"
-    :pagination="false"
-    :bordered="false"
-    :loading="resultStore.isLoadingResults"
-    striped
-    table-layout="fixed"
-  />
-</template>
+function parseResult (result: Array<ResultType>) {
+  return result.map(result => ({ 
+    ...result, 
+    gender: result.gender === 'Male' ? 'M' : 'F', 
+    category: result.category === 'pro' ? 'P' : 'A',
+    key: result.candidateId,
+  }))
+}
+
+watch(() => resultStore.result, (newResult) => {
+  data.value = parseResult(newResult)
+  expandedKeys.value = []
+})
+</script>
