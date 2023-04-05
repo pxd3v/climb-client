@@ -24,7 +24,7 @@ type ResultsTableProps = {
 const resultStore = useResultStore();
 const { isMobile } = useDevice();
 
-const props = defineEmits<ResultsTableProps>()
+const props = defineProps<ResultsTableProps>()
 const data = ref<Array<ResultType>>(parseResult(resultStore.result))
 const expandedKeys = ref<Array<string>>([])
 
