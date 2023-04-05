@@ -16,10 +16,15 @@ import { NDataTable } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import { ResultType } from '~~/composables/result';
 import ResultsTableCandidateRow from './ResultsTableCandidateRow.vue'
+
+type ResultsTableProps = {
+  eventId: string;
+}
+
 const resultStore = useResultStore();
-const eventStore = useEventStore();
 const { isMobile } = useDevice();
 
+const props = defineEmits<ResultsTableProps>()
 const data = ref<Array<ResultType>>(parseResult(resultStore.result))
 const expandedKeys = ref<Array<string>>([])
 
@@ -32,9 +37,9 @@ const columns = computed<DataTableColumns<ResultType>>(() => {
     {
       type: 'expand',
       renderExpand: (rowData: ResultType) => {
-        if(!eventStore.currentEventId) throw new Error('Cant fetch candidate entries without event id')
+        if(!props.eventId) throw new Error('Cant fetch candidate entries without event id')
         return h(ResultsTableCandidateRow, {
-          eventId: eventStore.currentEventId,
+          eventId: props.eventId,
           candidateId: rowData.candidateId
         })
       },

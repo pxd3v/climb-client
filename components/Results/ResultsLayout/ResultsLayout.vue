@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col flex-1 gap-3">
     <ResultsFilters :event-id="eventId" />
-    <ResultsTable class="overflow-scroll" />
+    <ResultsTable :event-id="eventId" class="overflow-scroll" />
   </div>
 </template>
 
