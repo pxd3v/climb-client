@@ -18,3 +18,8 @@ import { NConfigProvider, NNotificationProvider, NThemeEditor } from 'naive-ui'
 const theme = useThemeStore()
 </script>
 
+<style>
+* > input {
+  font-size: 16px !important;
+}
+</style>

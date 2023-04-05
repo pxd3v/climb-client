@@ -18,6 +18,8 @@
     "@nuxtjs/device": "^3.1.0",
     "@pinia/nuxt": "^0.4.7",
     "@types/lodash": "^4.14.192",
+    "@vuelidate/core": "^2.0.2",
+    "@vuelidate/validators": "^2.0.2",
     "@vueuse/nuxt": "^9.13.0",
     "lodash": "^4.17.21",
     "naive-ui": "^2.34.3",
