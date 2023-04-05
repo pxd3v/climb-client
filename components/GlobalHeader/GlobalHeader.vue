@@ -32,7 +32,7 @@ const theme = useThemeStore()
         <RouterLink to="/results" v-slot="{ navigate, isActive }">
           <NButton @click="navigate" :secondary="!isActive">Resultados</NButton>
         </RouterLink>
-        <RouterLink to="/entries" v-slot="{ navigate, isActive }">
+        <RouterLink to="/entries" v-slot="{ navigate, isActive }" v-if="!eventStore.currentEvent?.ended">
           <NButton @click="navigate" :secondary="!isActive">Registrar tentativas</NButton>
         </RouterLink>
       </div>

@@ -13,12 +13,8 @@ import ResultsAgeFilter from './ResultsAgeFilter.vue'
 import debounce from 'lodash/debounce'
 import { ResultFilters } from '~~/composables/result'
 
-type ResultsFiltersProps = {
-  eventId: string
-}
-
-const props = defineProps<ResultsFiltersProps>()
 const resultStore = useResultStore()
+const eventStore = useEventStore()
 const filters = ref<ResultFilters>({
   category: 'all',
   gender: 'all',
@@ -31,8 +27,9 @@ const fetchFilteredResult = debounce((eventId: string, filters: ResultFilters) =
 }, 300)
 
 watch(
-  () => ({ eventId: props.eventId, filters }),
+  () => ({ eventId: eventStore.currentEventId, filters }),
   (newValue) => {
+    if(!newValue.eventId) return
     fetchFilteredResult(newValue.eventId, newValue.filters.value)
     createScoreRefresh()
   },
@@ -49,7 +46,8 @@ function createScoreRefresh() {
   deleteScoreRefresh()
 
   intervalId.value = setInterval(function () {
-    fetchFilteredResult(props.eventId, filters.value)
+    if(!eventStore.currentEventId) return
+    fetchFilteredResult(eventStore.currentEventId, filters.value)
   }, 60000 * 5);
 }
 

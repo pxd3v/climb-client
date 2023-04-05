@@ -59,12 +59,21 @@ import ConfirmEntryModal from '@/components/ConfirmEntryModal/ConfirmEntryModal.
 import { NInputNumber, NText, NButton, useNotification, NRadioGroup, NRadioButton } from 'naive-ui'
 import { required, numeric, minValue, helpers } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
+
 useHead({
   title: 'Dyno - Entradas',
 })
 
 definePageMeta({
   layout: "authenticated",
+  middleware: [
+    function () {
+      const eventStore = useEventStore()
+      if(eventStore.currentEvent?.ended) {
+        return navigateTo('/results')
+      }
+    },
+  ],
 });
 
 const eventStore = useEventStore()
