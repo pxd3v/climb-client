@@ -7,7 +7,6 @@
     :loading="resultStore.isLoadingResults"
     v-model:expanded-row-keys="expandedKeys"
     striped
-    table-layout="fixed"
   />
 </template>
 
@@ -19,27 +18,21 @@ import ResultsTableCandidateRow from './ResultsTableCandidateRow.vue'
 
 const resultStore = useResultStore();
 const eventStore = useEventStore()
-const { isMobile } = useDevice();
+const device = useDevice();
 
 const data = ref<Array<ResultType>>(parseResult(resultStore.result))
 const expandedKeys = ref<Array<string>>([])
 
 // @ts-ignore
 const columns = computed<DataTableColumns<ResultType>>(() => {
-  const mobileKeys = ['name', 'age', 'score', 'expand']
-  const desktopKeys = ['name', 'state', 'age', 'gender', 'category', 'score', 'expand']  
-  const keysToUse = isMobile ? mobileKeys : desktopKeys
+  const desktopKeys = ['state', 'gender', 'category', 'age']  
+  const defaultKeys = ['name', 'score', 'expand', 'position']
+  const keysToUse = device.isMobile ? defaultKeys : [ ...defaultKeys, ...desktopKeys]
   return [
     {
-      type: 'expand',
-      renderExpand: (rowData: ResultType) => {
-        if(!eventStore.currentEventId) throw new Error('Cant fetch candidate entries without event id')
-        return h(ResultsTableCandidateRow, {
-          eventId: eventStore.currentEventId,
-          candidateId: rowData.candidateId
-        })
-      },
-      key: 'expand'
+      type: 'position',
+      key: 'position',
+      width: 50,
     },
     {
       title: 'Atleta',
@@ -62,18 +55,31 @@ const columns = computed<DataTableColumns<ResultType>>(() => {
       key: 'category'
     },
     {
-      title: 'Pontuacao',
-      key: 'score'
+      title: 'Resultado',
+      key: 'score',
+      width: 100
+    },
+    {
+      type: 'expand',
+      renderExpand: (rowData: ResultType) => {
+        if(!eventStore.currentEventId) throw new Error('Cant fetch candidate entries without event id')
+        return h(ResultsTableCandidateRow, {
+          eventId: eventStore.currentEventId,
+          candidateId: rowData.candidateId
+        })
+      },
+      key: 'expand'
     },
   ].filter(column => keysToUse.includes(column.key))
 })
 
 function parseResult (result: Array<ResultType>) {
-  return result.map(result => ({ 
+  return result.map((result, index) => ({ 
     ...result, 
     gender: result.gender === 'Male' ? 'M' : 'F', 
     category: result.category === 'pro' ? 'P' : 'A',
     key: result.candidateId,
+    position: index + 1
   }))
 }
 

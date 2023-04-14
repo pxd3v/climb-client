@@ -31,6 +31,7 @@ export type Entry = {
   tries: number
   sent: boolean
   boulder: Boulder
+  candidate: { number: number }
 }
 
 

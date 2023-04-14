@@ -13,7 +13,7 @@ const theme = useThemeStore()
       <Icon name="carbon:result" :color="theme.theme.common.primaryColor" class="w-6 h-6" />
     </template>
     <template #title>
-      <RouterLink to="/results"> Climb Festival </RouterLink>
+      <RouterLink to="/results">Dyno Projects</RouterLink>
     </template>
     <template #extra>
       <div class="flex gap-3 items-center">
@@ -32,8 +32,11 @@ const theme = useThemeStore()
         <RouterLink to="/results" v-slot="{ navigate, isActive }">
           <NButton @click="navigate" :secondary="!isActive">Resultados</NButton>
         </RouterLink>
-        <RouterLink to="/entries" v-slot="{ navigate, isActive }" v-if="!eventStore.currentEvent?.ended">
-          <NButton @click="navigate" :secondary="!isActive">Registrar tentativas</NButton>
+        <RouterLink to="/create-entry" v-slot="{ navigate, isActive }" v-if="!eventStore.currentEvent?.ended">
+          <NButton @click="navigate" :secondary="!isActive">Registrar Entrada</NButton>
+        </RouterLink>
+        <RouterLink to="/entries" v-slot="{ navigate, isActive }">
+          <NButton @click="navigate" :secondary="!isActive">Entradas</NButton>
         </RouterLink>
       </div>
     </div>
