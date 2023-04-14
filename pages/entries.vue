@@ -1,13 +1,27 @@
 <template>
-  <main class="flex items-center justify-center flex-1 h-full">
-    dsadsa
+  <main class="h-full max-h-full overflow-scroll">
+    <ClientOnly>
+      <NDataTable
+        :columns="columns"
+        :data="data"
+        :pagination="false"
+        :loading="listEntries.isLoadingList.value"
+        striped
+        virtual-scroll
+        :max-height="600"
+      />
+    </ClientOnly>
   </main>
 </template>
 
 <script setup lang="ts">
-import { useNotification } from 'naive-ui'
-import { required, numeric, minValue, helpers } from '@vuelidate/validators';
-import useVuelidate from '@vuelidate/core';
+import { DataTableColumns, NDataTable } from 'naive-ui'
+
+type RowData = {
+  candidate: number
+  boulder: number
+  sent: string
+}
 
 useHead({
   title: 'Dyno - Entradas',
@@ -15,84 +29,43 @@ useHead({
 
 definePageMeta({
   layout: "authenticated",
-  middleware: [
-    function () {
-      const eventStore = useEventStore()
-      if(eventStore.currentEvent?.ended) {
-        return navigateTo('/results')
-      }
-    },
-  ],
 });
 
 const eventStore = useEventStore()
-const userStore = useUserStore()
 const entryStore = useEntryStore()
-const notification = useNotification()
+const device = useDevice();
 
-const form = reactive({
-  candidate: 0,
-  boulder: 0,
-  sent: false,
+const data = ref<Array<RowData>>([])
+
+
+const listEntries = entryStore.listEntries({ eventId: eventStore.currentEventId })
+const entriesResponse = await listEntries.request()
+
+const columns = computed<DataTableColumns<RowData>>(() => {
+  return [
+    {
+      title: 'Candidate',
+      key: 'candidate'
+    },
+    {
+      title: 'Boulder',
+      key: 'boulder',
+    },
+    {
+      title: 'Top',
+      key: 'sent',
+    },
+  ]
 })
 
-const rules = computed(() => {
-  return {
-    candidate: { 
-      required: helpers.withMessage('Número do candidato é obrigatório.', required), 
-      numeric: helpers.withMessage('Número do candidato precisar ser um número.', numeric),
-      minValue: helpers.withMessage('Número do candidato não pode ser "0".', minValue(1))
-    },
-    boulder: { 
-      required: helpers.withMessage('Número do boulder é obrigatório.', required), 
-      numeric: helpers.withMessage('Número do boulder precisar ser um número.', numeric),
-      minValue: helpers.withMessage('Número do boulder não pode ser "0".', minValue(1))
-    },
-  };
-});
-
-const v$ = useVuelidate(rules, form);
-
-const show = ref(false)
-
-const formIsInvalid = computed(() => {
-  return (v$.value.$invalid|| eventStore.currentEventId === undefined)
-})
-
-function resetForm() {
-  form.candidate = 0
-  form.boulder = 0
-  form.sent = false
-  show.value = false
-}
-
-function openModal() {
-  if (formIsInvalid.value) return
-  show.value = true
-}
-
-async function onSubmit() {
-  const { candidate, boulder, sent } = form
-  const currentEventId = Number(eventStore.currentEventId)
-  const referee = userStore.user?.Referee.find((referee) => referee.eventId === currentEventId)
-  if (formIsInvalid.value || !referee) return
-
-  const result = await entryStore.createOrUpdateEntry({
-    sent: sent,
-    eventId: currentEventId,
-    candidateNumber: candidate,
-    boulderNumber: boulder,
-    refereeId: referee.id
+watch(() => entriesResponse.data, (newData) => {
+  if(!newData.value) return
+  data.value = newData.value.map((entry, index) => {
+    return {
+      candidate: entry.candidate.number,
+      boulder: entry.boulder.number,
+      sent: entry.sent ? '✅' : '❌',
+    }
   })
-
-  if (result?.id) {
-    notification.success({
-      content: 'Entrada registrada com sucesso!',
-      duration: 2000,
-      keepAliveOnHover: true
-    })
-  }
-  
-  resetForm()
-}
+}, { deep: true, immediate: true })
 </script>

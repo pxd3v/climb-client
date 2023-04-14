@@ -35,7 +35,7 @@ const theme = useThemeStore()
         <RouterLink to="/create-entry" v-slot="{ navigate, isActive }" v-if="!eventStore.currentEvent?.ended">
           <NButton @click="navigate" :secondary="!isActive">Registrar Entrada</NButton>
         </RouterLink>
-        <RouterLink to="/entries" v-slot="{ navigate, isActive }" v-if="!eventStore.currentEvent?.ended">
+        <RouterLink to="/entries" v-slot="{ navigate, isActive }">
           <NButton @click="navigate" :secondary="!isActive">Entradas</NButton>
         </RouterLink>
       </div>
