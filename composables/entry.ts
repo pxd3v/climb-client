@@ -45,10 +45,10 @@ export const useEntryStore = defineStore('entry', () => {
       })
       return response
     } catch(err) {
-        const error = err as AxiosError<{ statusCode: 400, message: string }>
-        notification.error({
-        content: error.response?.data.message,
-        duration: 2000,
+      const error = err as AxiosError<{ statusCode: 400, message: string }>
+      notification.error({
+        content: error.data.message,
+        duration: 5000,
         keepAliveOnHover: true
       })
     }

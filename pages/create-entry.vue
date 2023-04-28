@@ -115,6 +115,7 @@ function resetForm() {
   form.boulder = 0
   form.sent = false
   show.value = false
+  v$.value.$reset()
 }
 
 function openModal() {
@@ -142,8 +143,8 @@ async function onSubmit() {
       duration: 2000,
       keepAliveOnHover: true
     })
+    resetForm()
   }
   
-  resetForm()
 }
 </script>
