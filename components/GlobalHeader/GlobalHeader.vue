@@ -17,7 +17,7 @@ const theme = useThemeStore()
     </template>
     <template #extra>
       <div class="flex gap-3 items-center">
-        <NButton v-if="isAuthenticated" @click="userStore.signOut">Sign out</NButton>
+        <NButton v-if="isAuthenticated" @click="userStore.signOut">Sair</NButton>
         <NSwitch :value="theme.isDarkTheme" @update:value="theme.onChangeTheme" class="ml-auto">
           <template #icon>
             <Icon name="carbon:asleep-filled" v-if="theme.isDarkTheme" />
