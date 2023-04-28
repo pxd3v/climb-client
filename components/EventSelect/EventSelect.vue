@@ -30,7 +30,8 @@ const emit = defineEmits<EventSelectEmits>()
 const eventStore = useEventStore()
 eventStore.fetchEvents({ active: props.onlyActive }).then(() => {
   if (!eventStore.events?.[0]) return
-  emit('update:modelValue', `${eventStore.events[0].id}`)
+  const firstEnabledEvent = eventStore.events.find((event) => !event.ended)
+  emit('update:modelValue', `${firstEnabledEvent ? firstEnabledEvent.id : eventStore.events[0].id}`)
 })
 
 const options = computed(() =>
