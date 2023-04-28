@@ -29,6 +29,10 @@ const options = [
     value: 'amateur'
   },
   {
+    label: 'Infantil',
+    value: 'kids'
+  },
+  {
     label: 'Todos',
     value: 'all'
   },

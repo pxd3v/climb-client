@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export type ResultFilters = {
   age: [number, number]
-  category: 'pro' | 'amateur' | 'all';
+  category: 'pro' | 'amateur' | 'kids' | 'all';
   gender: 'Male' | 'Female' | 'all';
 };
 
@@ -10,7 +10,7 @@ export type ResultType = {
   "name": string,
   "age": number,
   "gender": string,
-  "category": string,
+  "category": 'pro' | 'amateur' | 'kids',
   "state": string,
   "score": number,
   "candidateId": string

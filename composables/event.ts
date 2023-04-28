@@ -37,6 +37,7 @@ export const useEventStore = defineStore('event', () => {
   }
 
   function setCurrentEvent(eventId: string) {
+    console.log('@@eventId', eventId)
     currentEventId.value = eventId
   }
   

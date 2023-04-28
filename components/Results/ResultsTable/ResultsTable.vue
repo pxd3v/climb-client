@@ -16,11 +16,22 @@ import type { DataTableColumns } from 'naive-ui'
 import { ResultType } from '~~/composables/result';
 import ResultsTableCandidateRow from './ResultsTableCandidateRow.vue'
 
+type ColumnData = {
+  category: 'Pro.' | 'Ama.' | 'Kids'
+  position: number
+  key: string
+  gender: 'M' | 'F'
+  name: string
+  age: number
+  state: string
+  score: number
+  candidateId: string
+}
 const resultStore = useResultStore();
 const eventStore = useEventStore()
 const device = useDevice();
 
-const data = ref<Array<ResultType>>(parseResult(resultStore.result))
+const data = ref<Array<ColumnData>>(parseResult(resultStore.result))
 const expandedKeys = ref<Array<string>>([])
 
 // @ts-ignore
@@ -73,11 +84,17 @@ const columns = computed<DataTableColumns<ResultType>>(() => {
   ].filter(column => keysToUse.includes(column.key))
 })
 
-function parseResult (result: Array<ResultType>) {
+function parseResult (result: Array<ResultType>): Array<ColumnData> {
+  const categoryLabel = {
+    pro: 'Pro.' as const,
+    amateur: 'Ama.' as const,
+    kids: 'Kids' as const
+  }
+  
   return result.map((result, index) => ({ 
     ...result, 
     gender: result.gender === 'Male' ? 'M' : 'F', 
-    category: result.category === 'pro' ? 'P' : 'A',
+    category: categoryLabel[result.category],
     key: result.candidateId,
     position: index + 1
   }))
