@@ -29,6 +29,12 @@ import ResultsAgeFilter from './ResultsAgeFilter.vue'
 import debounce from 'lodash/debounce'
 import { ResultFilters } from '~~/composables/result'
 
+type ResultsFiltersProps = {
+  eventId: string;
+}
+
+const props = defineProps<ResultsFiltersProps>()
+
 const defaultFilters: ResultFilters = {
   category: 'all',
   gender: 'all',
@@ -162,7 +168,6 @@ const age = computed(() => {
 
 const device = useDevice()
 const resultStore = useResultStore()
-const eventStore = useEventStore()
 const filters = ref<ResultFilters>({...defaultFilters})
 const isDivisionFiltersOn = ref(false)
 const currentDivisionIndex = ref(0)
@@ -173,7 +178,7 @@ const fetchFilteredResult = debounce((eventId: string, filters: ResultFilters) =
 }, 300)
 
 watch(
-  () => ({ eventId: eventStore.currentEventId, filters }),
+  () => ({ eventId: props.eventId, filters }),
   (newValue) => {
     if(!newValue.eventId) return
     fetchFilteredResult(newValue.eventId, newValue.filters.value)
@@ -183,8 +188,8 @@ watch(
 
 function reloadFilters() {
   isDivisionFiltersOn.value = false
-  if(eventStore.currentEventId) {
-    fetchFilteredResult(eventStore.currentEventId, filters.value)
+  if(props.eventId) {
+    fetchFilteredResult(props.eventId, filters.value)
   }
 }
 
@@ -215,7 +220,7 @@ watch(isDivisionFiltersOn, (newValue) => {
 
     filters.value = {...divisionFilters[currentDivisionIndex.value]}
     currentDivisionIndex.value++
-  }, 60000)
+  }, 3000)
 })
 
 onBeforeUnmount(() => {

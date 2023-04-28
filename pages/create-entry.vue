@@ -144,7 +144,12 @@ async function onSubmit() {
       keepAliveOnHover: true
     })
     resetForm()
-  }
-  
+  } 
 }
+
+watch(() => eventStore.currentEvent?.ended, (ended) => {
+  if (ended) {
+    navigateTo('/results')
+  }
+})
 </script>

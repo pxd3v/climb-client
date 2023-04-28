@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col flex-1 gap-3">
-    <ResultsFilters v-if="eventStore.currentEvent" />
-    <ResultsTable class="overflow-scroll" v-if="eventStore.currentEvent" />
+  <div class="flex flex-col flex-1 gap-3" v-if="eventStore.currentEvent">
+    <ResultsFilters :event-id="props.eventId"/>
+    <ResultsTable class="overflow-scroll" :event-id="props.eventId" />
   </div>
 </template>
 
@@ -17,11 +17,15 @@ const props = defineProps<ResultsLayoutProps>()
 const resultStore = useResultStore()
 const eventStore = useEventStore()
 
-if(!eventStore.currentEvent) {
+watch(() => eventStore.currentEvent, () => {
+  if(eventStore.currentEvent) return
   eventStore.fetchEvent(props.eventId).then(() => {
     eventStore.setCurrentEvent(props.eventId)
   })
-}
+}, { immediate: true, deep: true })
 
-resultStore.fetchResult(props.eventId)
+watch(() => props.eventId, async () => {
+  if(!props.eventId) return
+  resultStore.fetchResult(props.eventId)
+}, { immediate: true })
 </script>

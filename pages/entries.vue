@@ -33,13 +33,9 @@ definePageMeta({
 
 const eventStore = useEventStore()
 const entryStore = useEntryStore()
-const device = useDevice();
-
 const data = ref<Array<RowData>>([])
 
-
-const listEntries = entryStore.listEntries({ eventId: eventStore.currentEventId })
-const entriesResponse = await listEntries.request()
+const listEntries = computed(() => entryStore.listEntries({ eventId: eventStore.currentEventId }))
 
 const columns = computed<DataTableColumns<RowData>>(() => {
   return [
@@ -58,14 +54,16 @@ const columns = computed<DataTableColumns<RowData>>(() => {
   ]
 })
 
-watch(() => entriesResponse.data, (newData) => {
-  if(!newData.value) return
-  data.value = newData.value.map((entry, index) => {
+watch(() => eventStore.currentEventId, async () => {
+  if(!eventStore.currentEventId) return
+  const entriesResponse = await listEntries.value.request()
+  if(entriesResponse.data.value == null) { return }
+  data.value = entriesResponse.data.value.map((entry, index) => {
     return {
       candidate: entry.candidate.number,
       boulder: entry.boulder.number,
       sent: entry.sent ? '✅' : '❌',
     }
   })
-}, { deep: true, immediate: true })
+}, { immediate: true })
 </script>

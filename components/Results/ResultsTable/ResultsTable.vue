@@ -16,6 +16,12 @@ import type { DataTableColumns } from 'naive-ui'
 import { ResultType } from '~~/composables/result';
 import ResultsTableCandidateRow from './ResultsTableCandidateRow.vue'
 
+type ResultsFiltersProps = {
+  eventId: string;
+}
+
+const props = defineProps<ResultsFiltersProps>()
+
 type ColumnData = {
   category: 'Pro.' | 'Ama.' | 'Kids'
   position: number
@@ -28,7 +34,6 @@ type ColumnData = {
   candidateId: string
 }
 const resultStore = useResultStore();
-const eventStore = useEventStore()
 const device = useDevice();
 
 const data = ref<Array<ColumnData>>(parseResult(resultStore.result))
@@ -73,9 +78,9 @@ const columns = computed<DataTableColumns<ResultType>>(() => {
     {
       type: 'expand',
       renderExpand: (rowData: ResultType) => {
-        if(!eventStore.currentEventId) throw new Error('Cant fetch candidate entries without event id')
+        if(!props.eventId) throw new Error('Cant fetch candidate entries without event id')
         return h(ResultsTableCandidateRow, {
-          eventId: eventStore.currentEventId,
+          eventId: props.eventId,
           candidateId: rowData.candidateId
         })
       },
