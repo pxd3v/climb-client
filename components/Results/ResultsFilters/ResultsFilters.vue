@@ -220,7 +220,7 @@ watch(isDivisionFiltersOn, (newValue) => {
 
     filters.value = {...divisionFilters[currentDivisionIndex.value]}
     currentDivisionIndex.value++
-  }, 3000)
+  }, 60000)
 })
 
 onBeforeUnmount(() => {
